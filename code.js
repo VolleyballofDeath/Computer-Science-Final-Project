@@ -7,7 +7,7 @@ function main(){
 
 class matt{
     constructor(){
-    this.inventory = [];
+    this.inventory = ["rusty_sword"];
     this.health = 30;
     }
 }
