@@ -76,14 +76,14 @@ class enemy_slime_large{
     // not finished, dont use
     constructor(){
         this.health = 20 + Number(3*Math.random());
-        this.attack = 5;
+        this.attack = 3;
         this.defense =2;
         this.drops = [item_strange_goo(20 + Number(3*Math.random))]
         this.desc = "a verdant, undulating blob of rage"
     }
     update(){
         if(health <= 0){
-            
+
         }
     }
 }
