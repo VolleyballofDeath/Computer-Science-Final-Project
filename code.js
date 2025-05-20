@@ -11,7 +11,7 @@ function main(){
     // starting initalizations
     let Matt = new matt();
     Matt.location = LocationForest00;
-    
+
 }
 
 
@@ -62,5 +62,6 @@ class enemy_slime{
         this.attack = 2;
         this.defense = 1;
         this.drops = [item_strange_goo(5 + Number(2*Math.random()))]
+        this.desc = "a small green blob of agression"
     }
 }
