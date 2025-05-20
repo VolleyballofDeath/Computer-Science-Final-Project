@@ -64,4 +64,16 @@ class enemy_slime{
         this.drops = [item_strange_goo(5 + Number(2*Math.random()))]
         this.desc = "a small green blob of agression"
     }
+
+}
+
+class enemy_slime_large{
+    // not finished, dont use
+    constructor(){
+        this.health = 20 + Number(3*Math.random());
+        this.attack = 5;
+        this.defense =2;
+        this.drops = [item_strange_goo(20 + Number(3*Math.random))]
+        this.desc = "a verdant, undulating blob of rage"
+    }
 }
