@@ -2,7 +2,7 @@
 
 
 function main(){
-    
+    //initialize all locations here first
     let LocationForest00 = new location([],[],"you awake here with no memory, holding an old rusty sword");
     let LocationForest01 = new location([new enemy_slime,new enemy_slime],[new item_blackberry(4)],"you come across a secluded grove");
 
@@ -18,15 +18,13 @@ class location{
     }
 }
 
-
-
 class matt{
     constructor(){
     this.inventory = [new rusty_sword(1)];
     this.health = 30;
     }
 }
-
+//item classes
 class item_rusty_sword{
     constructor(ammount){
         this.ammount=ammount;
@@ -52,7 +50,7 @@ class item_blackberry{
         this.desc = "a small blackberry. looks edible"
     }
 }
-
+//enemy classes
 class enemy_slime{
     constructor(){
         this.health = 5 + Number(2*Math.random());
