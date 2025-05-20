@@ -64,6 +64,11 @@ class enemy_slime{
         this.drops = [item_strange_goo(5 + Number(2*Math.random()))]
         this.desc = "a small green blob of agression"
     }
+    update(){
+        if(health <= 0){
+
+        }
+    }
 
 }
 
@@ -75,5 +80,10 @@ class enemy_slime_large{
         this.defense =2;
         this.drops = [item_strange_goo(20 + Number(3*Math.random))]
         this.desc = "a verdant, undulating blob of rage"
+    }
+    update(){
+        if(health <= 0){
+            
+        }
     }
 }
