@@ -55,6 +55,15 @@ class item_blackberry{
         this.desc = "a small blackberry. looks edible"
     }
 }
+
+class item_wool_coat{
+    constructor(ammount){
+        this.ammount = ammount;
+        this.value = 5;
+        this.defense = 1;
+        this.disc= "a reasonable woolen overcoat. offers light protection"
+    }
+}
 //enemy classes
 class enemy_slime{
     constructor(){
