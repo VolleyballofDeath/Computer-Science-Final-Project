@@ -5,8 +5,13 @@ function main(){
     //initialize all locations here first
     let LocationForest00 = new location([],[],"you awake here with no memory, holding an old rusty sword");
     let LocationForest01 = new location([new enemy_slime,new enemy_slime],[new item_blackberry(4)],"you come across a secluded grove");
-
-    let Matt = new matt;
+    // intialize all the links between locations
+    LocationForest00.links = [LocationForest01];
+    LocationForest01.links = [LocationForest00];
+    // starting initalizations
+    let Matt = new matt();
+    Matt.location = LocationForest00;
+    
 }
 
 
