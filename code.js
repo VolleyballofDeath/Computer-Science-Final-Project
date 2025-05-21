@@ -14,11 +14,17 @@ function main(){
 
 }
 
+
+
+
 function move(){
     StartLocation = Matt.location;
     if(StartLocation.links.length == 1){
         console.log("you move forward");
         Matt.location = StartLocation.links[0];
+    }else{
+        
+
     }
 }
 
