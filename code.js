@@ -20,9 +20,6 @@ function move(){
         console.log("you move forward");
         Matt.location = StartLocation.links[0];
     }
-
-
-
 }
 
 class location{
