@@ -14,16 +14,22 @@ function main(){
 
 }
 
-function move(){
-    StartLocation = Matt.location;
-    if(StartLocation.links.length == 1){
-        console.log("you move forward");
-        Matt.location = StartLocation.links[0];
-    }
 
 
 
+function move() {
+   let currentLocation = matt.location
+   console.log("your options are")
+   for(let i = 0; i < currentLocation.links.length; i++) {
+       console.log(currentLocation.links[i].name + ", ")
+   }
+   let input = prompt("Where do you want to go? CASE SENSETIVE")
+    for(let i = 0; i < currentLocation.links.length; i++) {
+       if(input == currentLocation.links[i].name)
+           matt.location = currentLocation.link[i]
+   }
 }
+
 
 class location{
     constructor(enemies,loot,desc,name){
