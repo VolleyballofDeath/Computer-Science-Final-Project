@@ -112,7 +112,8 @@ class enemy_slime_large{
     }
     update(){
         if(health <= 0){
-
+            Matt.location.enemies.push(new enemy_slime);
+            Matt.location.enemies.push(new enemy_slime);
         }
     }
 }
