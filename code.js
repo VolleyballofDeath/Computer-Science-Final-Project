@@ -11,8 +11,23 @@ function main(){
     // starting initalizations
     let Matt = new matt();
     Matt.location = LocationForest00;
-
+    move(LocationForest00)
 }
+
+function move(input) {
+    let currentLocation = matt.location
+    document.getElementById("text").innerHTML = "Your options are";
+    for(let i = 0; i < currentLocation.links.length; i++) {
+        document.getElementById("text").innerHTML += currentLocation.links[i];
+
+    }
+    console.log("Where do you want to go?")
+     for(let i = 0; i < currentLocation.links.length; i++) {
+        if(input == currentLocation.links[i])
+            matt.location = currentLocation.link[i]
+    }
+}
+
 
 
 class location{
