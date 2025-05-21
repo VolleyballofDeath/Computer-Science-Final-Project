@@ -3,8 +3,8 @@
 
 function main(){
     //initialize all locations here first
-    let LocationForest00 = new location([],[],"you awake here with no memory, holding an old rusty sword");
-    let LocationForest01 = new location([new enemy_slime,new enemy_slime],[new item_blackberry(4)],"you come across a secluded grove");
+    let LocationForest00 = new location([],[],"you awake here with no memory, holding an old rusty sword","the deep forest");
+    let LocationForest01 = new location([new enemy_slime,new enemy_slime],[new item_blackberry(4)],"you come across a secluded grove","the forest grove");
     // intialize all the links between locations
     LocationForest00.links = [LocationForest01];
     LocationForest01.links = [LocationForest00];
@@ -14,12 +14,23 @@ function main(){
 
 }
 
+function move(){
+    StartLocation = Matt.location;
+    if(StartLocation.links.length == 1){
+        console.log("you move forward");
+        Matt.location = StartLocation.links[0];
+    }
+
+
+
+}
 
 class location{
-    constructor(enemies,loot,desc){
+    constructor(enemies,loot,desc,name){
         this.enemies = enemies;
         this.loot = loot;
         this.desc = desc;
+        this.name = name;
     }
 }
 
