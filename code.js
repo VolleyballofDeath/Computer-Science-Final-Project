@@ -56,6 +56,15 @@ class item_blackberry{
     }
 }
 
+class item_bread_loaf{
+    constructor(ammount){
+        this.ammount = ammount;
+        this.value = 0.7;
+        this.food = 4;
+        this.desc = "a loaf of sourdough bread. looks edible"
+    }
+}
+
 class item_wool_coat{
     constructor(ammount){
         this.ammount = ammount;
@@ -70,7 +79,7 @@ class enemy_slime{
         this.health = 5 + Number(2*Math.random());
         this.attack = 2;
         this.defense = 1;
-        this.drops = [item_strange_goo(5 + Number(2*Math.random()))]
+        this.drops = [item_strange_goo(5 + Number(2*Math.random()))];
         this.desc = "a small green blob of agression"
     }
     update(){
@@ -87,8 +96,23 @@ class enemy_slime_large{
         this.health = 20 + Number(3*Math.random());
         this.attack = 3;
         this.defense =2;
-        this.drops = [item_strange_goo(20 + Number(3*Math.random))]
+        this.drops = [item_strange_goo(20 + Number(3*Math.random))];
         this.desc = "a verdant, undulating blob of rage"
+    }
+    update(){
+        if(health <= 0){
+
+        }
+    }
+}
+
+class enemy_ghoul{
+    constructor(){
+        this.health =  10 + Number(1*Math.random());
+        this.attack = 4;
+        this.defense =1;
+        this.drops = [];
+        this.desc = "a gaunt, rotting corpe, shambling in a cruel mockery of life"
     }
     update(){
         if(health <= 0){
