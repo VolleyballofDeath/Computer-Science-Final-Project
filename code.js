@@ -18,7 +18,13 @@ function fight(enemies) {
     
 }
 
-
+function itemPickup(item) {
+    let place;
+    for(let i = 0; i<matt.location.loot.lengt; i++) {
+        if(matt.location.loot[i] == item) { place = i; }
+    }
+   matt.inventory += matt.location.loot[place] 
+}
 
 function move() {
    let currentLocation = matt.location
