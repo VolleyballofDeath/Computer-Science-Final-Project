@@ -15,6 +15,16 @@ function main(){
 }
 
 function fight(enemy, number) {
+    let playerAttack = Matt.inventory[0].attack;
+    enemy.health -= playerAttack;
+
+    if (enemy.health <= 0) {
+        console.log("Congratulations! You have defeated the enemy slime!");
+    
+    if (number === 0) {
+        console.log(“Congratulations on your victory! You have been granted a bronze sword to replace your rusty one.”);
+         Matt.inventory[0] = new item_bronze_sword(1);
+    }
     
 
 
@@ -91,6 +101,15 @@ class item_wool_coat{
         this.disc= "a reasonable woolen overcoat. offers light protection"
     }
 }
+
+class item_bronze_sword {
+    constructor(amount){
+        this.amount = amount;
+        this.attack = 5;
+        this.desc = "a newly-forged bronze sword, much stronger than the last";
+    }
+}
+        
 //enemy classes
 class enemy_slime{
     constructor(){
