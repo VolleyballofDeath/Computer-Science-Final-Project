@@ -3,7 +3,7 @@
 
 function main(){
     //initialize all locations here first
-    let LocationForest00 = new location([],[],"you awake here with no memory, holding an old rusty sword","the deep forest");
+    let LocationForest00 = new location([],[],""You are Matt. You have just awoken in an enchanted forest filled barren with mystical creatures and fantasies. You remember nothing of how you arrived here, nor your life before the forest. All you have is a rusty sword, and all you know is that you feel a creeping danger here, and you must escape as quickly as possible. Understood?");
     let LocationForest01 = new location([new enemy_slime,new enemy_slime],[new item_blackberry(4)],"you come across a secluded grove","the forest grove");
     // intialize all the links between locations
     LocationForest00.links = [LocationForest01];
@@ -14,7 +14,8 @@ function main(){
 
 }
 
-
+function fight(enemy, number) {
+    
 
 
 
