@@ -28,6 +28,14 @@ function itemPickup(item) {
 
 function move() {
    let currentLocation = matt.location
+   console.log(currentLocation.desc);
+   for(let i = 0; i < currentLocation.enemies.length; i++) {
+    fight(currentLocation.enemies[i])
+   }
+   console.log("The items you see are: ")
+   for(let i = 0; i < currentLocation.loot.length; i++) {
+    console.log(currentLocation.loot[i] + " ");
+   }
    console.log("your options are")
    for(let i = 0; i < currentLocation.links.length; i++) {
        console.log(currentLocation.links[i].name + ", ")
