@@ -25,11 +25,17 @@ function fight(enemy,) {
         console.log("Congratulations! You have defeated the enemy] slime!");
     
     }
+       if (Matt.location == LocationForest00) {
+            console.log("You found a bronze sword hidden beneath a patch of moss.");
+            Matt.inventory[0] = new item_bronze_sword(1);
+        } else if (Matt.location == LocationForest01) {
+            console.log("You uncover a gleaming silver sword lodged in an old tree trunk.");
+            Matt.inventory[0] = new item_silver_sword(1);
+        } else {
+            console.log("You scavenge parts from the creature, but find nothing of value.");
+        }
     
 }
-
-
-
 
 
 function move() {
@@ -115,6 +121,15 @@ class item_bronze_sword {
         this.desc = "a newly-forged bronze sword, much stronger than the last";
     }
 }
+
+class item_silver_sword {
+    constructor(ammount){
+        this.ammount = ammount;
+        this.attack = 9;
+        this.value = 4;
+        this.desc = "a silver sword, humming with faint magical energy"
+    }
+
         
 //enemy classes
 class enemy_slime{
