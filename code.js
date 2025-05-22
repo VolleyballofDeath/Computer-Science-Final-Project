@@ -11,22 +11,24 @@ function main(){
     // starting initalizations
     let Matt = new matt();
     Matt.location = LocationForest00;
+    Matt.heldWeapon = 0;
 
 }
 
-function fight(enemy, number) {
-    let playerAttack = Matt.inventory[0].attack;
-    enemy.health -= playerAttack;
+function fight(enemy,) {
 
+    let playerAttack = Matt.inventory[Matt.heldWeapon].attack;
+    if(enemy.defense<= playerAttack){
+    enemy.health -= (playerAttack-enemy.defense);
+    }
     if (enemy.health <= 0) {
-        console.log("Congratulations! You have defeated the enemy slime!");
+        console.log("Congratulations! You have defeated the enemy] slime!");
     
-    if (number === 0) {
-        console.log(“Congratulations on your victory! You have been granted a bronze sword to replace your rusty one.”);
-         Matt.inventory[0] = new item_bronze_sword(1);
     }
     
 }
+
+
 
 
 
