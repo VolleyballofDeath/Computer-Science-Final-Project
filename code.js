@@ -3,38 +3,41 @@
 
 function main(){
     //initialize all locations here first
-    let LocationForest00 = new location([],[],"you awake here with no memory, holding an old rusty sword");
-    let LocationForest01 = new location([new enemy_slime,new enemy_slime],[new item_blackberry(4)],"you come across a secluded grove");
+    let LocationForest00 = new location([],[],""You are Matt. You have just awoken in an enchanted forest filled barren with mystical creatures and fantasies. You remember nothing of how you arrived here, nor your life before the forest. All you have is a rusty sword, and all you know is that you feel a creeping danger here, and you must escape as quickly as possible. Understood?");
+    let LocationForest01 = new location([new enemy_slime,new enemy_slime],[new item_blackberry(4)],"you come across a secluded grove","the forest grove");
     // intialize all the links between locations
     LocationForest00.links = [LocationForest01];
     LocationForest01.links = [LocationForest00];
     // starting initalizations
     let Matt = new matt();
     Matt.location = LocationForest00;
-    move(LocationForest00)
+
 }
 
-function move(input) {
-    let currentLocation = matt.location
-    document.getElementById("text").innerHTML = "Your options are";
+function fight(enemy, number) {
+    
+
+
+function move() {
+   let currentLocation = matt.location
+   console.log("your options are")
+   for(let i = 0; i < currentLocation.links.length; i++) {
+       console.log(currentLocation.links[i].name + ", ")
+   }
+   let input = prompt("Where do you want to go? CASE SENSETIVE")
     for(let i = 0; i < currentLocation.links.length; i++) {
-        document.getElementById("text").innerHTML += currentLocation.links[i];
-
-    }
-    console.log("Where do you want to go?")
-     for(let i = 0; i < currentLocation.links.length; i++) {
-        if(input == currentLocation.links[i])
-            matt.location = currentLocation.link[i]
-    }
+       if(input == currentLocation.links[i].name)
+           matt.location = currentLocation.link[i]
+   }
 }
-
 
 
 class location{
-    constructor(enemies,loot,desc){
+    constructor(enemies,loot,desc,name){
         this.enemies = enemies;
         this.loot = loot;
         this.desc = desc;
+        this.name = name;
     }
 }
 
@@ -71,6 +74,15 @@ class item_blackberry{
     }
 }
 
+class item_bread_loaf{
+    constructor(ammount){
+        this.ammount = ammount;
+        this.value = 0.7;
+        this.food = 4;
+        this.desc = "a loaf of sourdough bread. looks edible"
+    }
+}
+
 class item_wool_coat{
     constructor(ammount){
         this.ammount = ammount;
@@ -85,7 +97,7 @@ class enemy_slime{
         this.health = 5 + Number(2*Math.random());
         this.attack = 2;
         this.defense = 1;
-        this.drops = [item_strange_goo(5 + Number(2*Math.random()))]
+        this.drops = [item_strange_goo(5 + Number(2*Math.random()))];
         this.desc = "a small green blob of agression"
     }
     update(){
@@ -102,8 +114,24 @@ class enemy_slime_large{
         this.health = 20 + Number(3*Math.random());
         this.attack = 3;
         this.defense =2;
-        this.drops = [item_strange_goo(20 + Number(3*Math.random))]
+        this.drops = [item_strange_goo(20 + Number(3*Math.random))];
         this.desc = "a verdant, undulating blob of rage"
+    }
+    update(){
+        if(health <= 0){
+            Matt.location.enemies.push(new enemy_slime);
+            Matt.location.enemies.push(new enemy_slime);
+        }
+    }
+}
+
+class enemy_ghoul{
+    constructor(){
+        this.health =  10 + Number(1*Math.random());
+        this.attack = 4;
+        this.defense =1;
+        this.drops = [];
+        this.desc = "a gaunt, rotting corpe, shambling in a cruel mockery of life"
     }
     update(){
         if(health <= 0){
