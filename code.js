@@ -21,20 +21,7 @@ function fight(enemy,) {
     if(enemy.defense<= playerAttack){
     enemy.health -= (playerAttack-enemy.defense);
     }
-    if (enemy.health <= 0) {
-        console.log("Congratulations! You have defeated the enemy] slime!");
-    
-    }
-       if (Matt.location == LocationForest00) {
-            console.log("You found a bronze sword hidden beneath a patch of moss.");
-            Matt.inventory[0] = new item_bronze_sword(1);
-        } else if (Matt.location == LocationForest01) {
-            console.log("You uncover a gleaming silver sword lodged in an old tree trunk.");
-            Matt.inventory[0] = new item_silver_sword(1);
-        } else {
-            console.log("You scavenge parts from the creature, but find nothing of value.");
-        }
-    
+  
 }
 
 
