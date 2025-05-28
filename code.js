@@ -15,6 +15,25 @@ function main(){
 
 }
 
+
+
+
+
+function consume(item){
+    if(item.ammount >= 1 ){
+    if(Matt.health < Matt.maxhealth){
+        Matt.health += item.food
+        if(Matt.health >= Matt.maxhealth){
+            Matt.health = Matt.maxhealth
+        }
+        item.ammount -= 1;
+    }else{
+        console.log("you are too full to eat")
+    } 
+    }else{
+        console.log("you dont have that")
+    }
+}
 function atackOnEnemy(enemy) {
     let playerAttack = Matt.inventory[Matt.heldWeapon].attack;
     if(enemy.defense<= playerAttack){
@@ -27,8 +46,6 @@ function atackOnPlayer(enemy) {
     Matt.health -= (enemy.attack-playerDefense);
     }
 }
-
-
 function move() {
    let currentLocation = matt.location
    console.log("your options are")
@@ -58,6 +75,7 @@ class matt{
     constructor(){
     this.inventory = [new rusty_sword(1)];
     this.health = 30;
+    this.maxhealth = 30;
     }
 }
 //item classes
