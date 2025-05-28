@@ -109,6 +109,7 @@ class item_bronze_sword {
     constructor(amount){
         this.amount = amount;
         this.attack = 5;
+        this.value = 5;
         this.desc = "a newly-forged bronze sword, much stronger than the last";
     }
 }
@@ -117,7 +118,7 @@ class item_silver_sword {
     constructor(ammount){
         this.ammount = ammount;
         this.attack = 9;
-        this.value = 4;
+        this.value = 9;
         this.desc = "a silver sword, humming with faint magical energy"
     }
 
