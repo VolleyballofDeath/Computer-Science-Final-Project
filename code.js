@@ -122,7 +122,7 @@ class item_silver_sword {
         this.desc = "a silver sword, humming with faint magical energy"
     }
 
-        
+}
 //enemy classes
 class enemy_slime{
     constructor(){
