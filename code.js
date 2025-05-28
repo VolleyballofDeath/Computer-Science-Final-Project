@@ -10,7 +10,7 @@ function main(){
     PlaceForest01.links = [PlaceForest00];
     // starting initalizations
     let Matt = new matt();
-    Matt.location = PlaceForest00;
+    Matt.place = PlaceForest00;
     Matt.heldWeapon = 0;
 
 }
@@ -47,7 +47,7 @@ function atackOnPlayer(enemy) {
     }
 }
 function move() {
-   let currentLocation = matt.location
+   let currentLocation = matt.place
    console.log("your options are")
    for(let i = 0; i < currentPlace.links.length; i++) {
        console.log(currentPlace.links[i].name + ", ")
@@ -168,8 +168,8 @@ class enemy_slime_large{
     }
     update(){
         if(health <= 0){
-            Matt.location.enemies.push(new enemy_slime);
-            Matt.location.enemies.push(new enemy_slime);
+            Matt.place.enemies.push(new enemy_slime);
+            Matt.place.enemies.push(new enemy_slime);
             console.log("the blob splits in twain to bring you pain!")
         }
     }
