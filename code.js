@@ -1,4 +1,10 @@
+function foo() {
+    document.getElementById("text").innerHTML = "Option 1 pressed";
+}
 
+function bar() {
+    document.getElementById("text").innerHTML = "Option 2 pressed";
+}
 
 
 function main(){
@@ -25,6 +31,9 @@ function itemPickup(item) {
     }
    matt.inventory += matt.location.loot[place] 
 }
+
+
+
 
 function move() {
    let currentLocation = matt.location
