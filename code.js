@@ -36,7 +36,7 @@ function move() {
        console.log(currentLocation.links[i].name + ", ")
    }
    while (true){
-   let input = prompt("Where do you want to go? CASE SENSETIVE")
+   let input = prompt("Where do you want to go? CASE SENSITIVE")
     for(let i = 0; i < currentLocation.links.length; i++) {
        if(input == currentLocation.links[i].name)
            matt.location = currentLocation.link[i]
