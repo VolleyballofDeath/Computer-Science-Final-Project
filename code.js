@@ -3,14 +3,14 @@
 
 function main(){
     //initialize all locations here first
-    let LocationForest00 = new location([],[],"You are Matt. You have just awoken in an enchanted forest filled barren with mystical creatures and fantasies. You remember nothing of how you arrived here, nor your life before the forest. All you have is a rusty sword, and all you know is that you feel a creeping danger here, and you must escape as quickly as possible. Understood?","Starting Location");
-    let LocationForest01 = new location([new enemy_slime,new enemy_slime],[new item_blackberry(4)],"you come across a secluded grove","the forest grove");
+    let PlaceForest00 = new place([],[],"You are Matt. You have just awoken in an enchanted forest filled barren with mystical creatures and fantasies. You remember nothing of how you arrived here, nor your life before the forest. All you have is a rusty sword, and all you know is that you feel a creeping danger here, and you must escape as quickly as possible. Understood?","Starting Location");
+    let PlaceForest01 = new place([new enemy_slime,new enemy_slime],[new item_blackberry(4)],"you come across a secluded grove","the forest grove");
     // intialize all the links between locations
-    LocationForest00.links = [LocationForest01];
-    LocationForest01.links = [LocationForest00];
+    PlaceForest00.links = [PlaceForest01];
+    PlaceForest01.links = [PlaceForest00];
     // starting initalizations
     let Matt = new matt();
-    Matt.location = LocationForest00;
+    Matt.location = PlaceForest00;
     Matt.heldWeapon = 0;
 
 }
@@ -49,20 +49,20 @@ function atackOnPlayer(enemy) {
 function move() {
    let currentLocation = matt.location
    console.log("your options are")
-   for(let i = 0; i < currentLocation.links.length; i++) {
-       console.log(currentLocation.links[i].name + ", ")
+   for(let i = 0; i < currentPlace.links.length; i++) {
+       console.log(currentPlace.links[i].name + ", ")
    }
    while (true){
    let input = prompt("Where do you want to go? CASE SENSITIVE")
-    for(let i = 0; i < currentLocation.links.length; i++) {
-       if(input == currentLocation.links[i].name)
-           matt.location = currentLocation.link[i]
+    for(let i = 0; i < currentPlace.links.length; i++) {
+       if(input == currentPlace.links[i].name)
+           matt.location = currentPlace.link[i]
             break;
    }
     }
 }
 
-class location{
+class place{
     constructor(enemies,loot,desc,name){
         this.enemies = enemies;
         this.loot = loot;
