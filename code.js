@@ -152,14 +152,13 @@ class enemy_slime{
     }
     update(){
         if(health <= 0){
-
+            console.log("the blob lets out a final gurgling squelch")
         }
     }
 
 }
 
 class enemy_slime_large{
-    // not finished, dont use
     constructor(){
         this.health = 20 + Number(3*Math.random());
         this.attack = 3;
@@ -171,6 +170,7 @@ class enemy_slime_large{
         if(health <= 0){
             Matt.location.enemies.push(new enemy_slime);
             Matt.location.enemies.push(new enemy_slime);
+            console.log("the blob splits in twain to bring you pain!")
         }
     }
 }
@@ -185,7 +185,7 @@ class enemy_ghoul{
     }
     update(){
         if(health <= 0){
-
+            console.log("the gaunt figure falls for a second and final time")
         }
     }
 }
