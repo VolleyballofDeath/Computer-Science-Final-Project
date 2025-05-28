@@ -15,13 +15,17 @@ function main(){
 
 }
 
-function fight(enemy,) {
-
+function atackOnEnemy(enemy) {
     let playerAttack = Matt.inventory[Matt.heldWeapon].attack;
     if(enemy.defense<= playerAttack){
     enemy.health -= (playerAttack-enemy.defense);
     }
-  
+}
+function atackOnPlayer(enemy) {
+    let playerDefense = Matt.inventory[Matt.wornArmor].defense;
+    if(playerDefense<= enemy.attack){
+    Matt.health -= (enemy.attack-playerDefense);
+    }
 }
 
 
