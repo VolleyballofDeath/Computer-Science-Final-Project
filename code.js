@@ -47,7 +47,7 @@ function atackOnPlayer(enemy) {
     }
 }
 function move() {
-   let currentLocation = matt.place
+   let currentPlace = matt.place
    console.log("your options are")
    for(let i = 0; i < currentPlace.links.length; i++) {
        console.log(currentPlace.links[i].name + ", ")
