@@ -34,6 +34,7 @@ function consume(item){
         console.log("you dont have that")
     }
 }
+
 function atackOnEnemy(enemy) {
     let playerAttack = Matt.inventory[Matt.heldWeapon].attack;
     if(enemy.defense<= playerAttack){
@@ -146,13 +147,14 @@ class enemy_slime{
     constructor(){
         this.health = 5 + Number(2*Math.random());
         this.attack = 2;
-        this.defense = 1;
+        this.defense = 1;s
         this.drops = [item_strange_goo(5 + Number(2*Math.random()))];
         this.desc = "a small green blob of agression"
     }
     update(){
         if(health <= 0){
             console.log("the blob lets out a final gurgling squelch")
+            this.attack = 0;
         }
     }
 
@@ -171,6 +173,7 @@ class enemy_slime_large{
             Matt.place.enemies.push(new enemy_slime);
             Matt.place.enemies.push(new enemy_slime);
             console.log("the blob splits in twain to bring you pain!")
+            this.attack = 0;
         }
     }
 }
@@ -186,6 +189,7 @@ class enemy_ghoul{
     update(){
         if(health <= 0){
             console.log("the gaunt figure falls for a second and final time")
+            this.attack = 0;
         }
     }
 }
