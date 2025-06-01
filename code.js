@@ -193,3 +193,5 @@ class enemy_ghoul{
         }
     }
 }
+
+main();
