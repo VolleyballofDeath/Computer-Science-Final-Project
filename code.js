@@ -76,7 +76,7 @@ class place{
 
 class matt{
     constructor(){
-    this.inventory = [new rusty_sword(1)];
+    this.inventory = [new item_rusty_sword(1)];
     this.health = 30;
     this.maxhealth = 30;
     }
@@ -149,8 +149,8 @@ class enemy_slime{
     constructor(){
         this.health = 5 + Number(2*Math.random());
         this.attack = 2;
-        this.defense = 1;s
-        this.drops = [item_strange_goo(5 + Number(2*Math.random()))];
+        this.defense = 1;
+        this.drops = [new item_strange_goo(5 + Number(2*Math.random()))];
         this.desc = "a small green blob of agression"
     }
     update(){
