@@ -13,6 +13,8 @@ function main(){
     Matt.place = PlaceForest00;
     Matt.heldWeapon = 0;
 
+    console.log("hello world")
+
 }
 
 
