@@ -17,7 +17,7 @@ function ask(question) {
 async function main(){
     //initialize all locations here first
     let PlaceForest00 = new place([],[],"You are Matt. You have just awoken in an enchanted forest filled to the brim with mystical creatures and fantasies. You remember nothing of how you arrived here, nor your life before the forest. All you have is a rusty sword, and all you know is that you feel a creeping danger here, and you must escape as quickly as possible. Understood?","Starting Location");
-    let PlaceForest01 = new place([new enemy_slime,new enemy_slime],[new item_blackberry(4)],"you come across a secluded grove","the forest grove");
+    let PlaceForest01 = new place([new enemy_slime(),new enemy_slime()],[new item_blackberry(4)],"you come across a secluded grove","the forest grove");
     // intialize all the links between locations
     PlaceForest00.links = [PlaceForest01];
     PlaceForest01.links = [PlaceForest00];
@@ -28,52 +28,107 @@ async function main(){
 
     console.log(Matt.place.desc)
     while (true) {
-        if (Matt.place.enemies.length === 0){
-        let input = await ask("What do you want to do? (move, inventory, quit): ");
+    if (Matt.place.enemies.length === 0) {
+        let input = await ask("What do you want to do? (move, inventory, consume, quit): ");
 
         if (input === "move") {
             await move();
         } else if (input === "inventory") {
             printInventory();
-        }else if (input === "quit") {
+        } else if (input === "consume") {
+            console.log("Inventory:");
+            for (let i = 0; i < Matt.inventory.length; i++) {
+                console.log("[" + i + "] " + Matt.inventory[i].desc + " x" + Matt.inventory[i].ammount);
+            }
+            let choice = await ask("Which item number do you want to consume? ");
+            let index = Number(choice);
+
+            if (isNaN(index) || index < 0 || index >= Matt.inventory.length) {
+                console.log("Invalid selection.");
+            } else {
+                consume(Matt.inventory[index]);
+            }
+        } else if (input === "quit") {
             console.log("Goodbye!");
             rl.close();
             break;
         } else {
             console.log("Unknown command.");
         }
-        }else{
-            await fight();
-        }
+    } else {
+        await fight();
     }
 }
-
-
-
-async function fight(){
-
-    return;
 }
-
 async function move() {
-   let currentPlace = Matt.place;
-   console.log("your options are:")
-   for (let i = 0; i < currentPlace.links.length; i++) {
-       console.log(currentPlace.links[i].name);
-   }
+    let currentPlace = Matt.place;
+    console.log("Your options are:");
+    for (let i = 0; i < currentPlace.links.length; i++) {
+        console.log("- " + currentPlace.links[i].name);
+    }
 
-   while (true) {
-       let input = await ask("Where do you want to go? CASE SENSITIVE: ");
-       for (let i = 0; i < currentPlace.links.length; i++) {
-           if (input === currentPlace.links[i].name) {
-               Matt.place = currentPlace.links[i];
-               console.log("You moved to " + Matt.place.name);
-               console.log(Matt.place.desc)
-               return;
-           }
-       }
-       console.log("Invalid location. Try again.");
-   }
+    while (true) {
+        let input = await ask("Where do you want to go? (case sensitive): ");
+        for (let i = 0; i < currentPlace.links.length; i++) {
+            if (input === currentPlace.links[i].name) {
+                Matt.place = currentPlace.links[i];
+                console.log("You moved to " + Matt.place.name + ".");
+                console.log(Matt.place.desc);
+                return;
+            }
+        }
+        console.log("Invalid location. Try again.");
+    }
+}
+async function fight() {
+    let enemies = Matt.place.enemies;
+
+    console.log("Enemies here:");
+    for (let i = 0; i < enemies.length; i++) {
+        console.log("[" + i + "] " + enemies[i].desc + " (HP: " + enemies[i].health.toFixed(1) + ")");
+    }
+
+    let input = await ask("Choose an enemy to attack by number: ");
+    let index = Number(input);
+
+    if (isNaN(index) || index < 0 || index >= enemies.length) {
+        console.log("Invalid selection.");
+        return;
+    }
+
+    let enemy = enemies[index];
+
+    console.log("You attack the " + enemy.desc + "!");
+    atackOnEnemy(enemy);
+
+    if (enemy.health <= 0) {
+        console.log("You defeated the " + enemy.desc + "!");
+        for (let i = 0; i < enemy.drops.length; i++) {
+            Matt.inventory.push(enemy.drops[i]);
+        }
+        enemies.splice(index, 1); 
+        return;
+    }
+
+    console.log("The " + enemy.desc + " strikes back!");
+    let originalWornArmor = Matt.wornArmor;
+    if (typeof Matt.wornArmor !== 'number' || !Matt.inventory[Matt.wornArmor]?.defense) {
+        Matt.wornArmor = -1;
+        Matt.inventory[-1] = { defense: 0 }; 
+    }
+    atackOnPlayer(enemy);
+    if (Matt.wornArmor === -1) {
+        delete Matt.inventory[-1];
+        Matt.wornArmor = originalWornArmor;
+    }
+
+    if (Matt.health <= 0) {
+        console.log("You were defeated...");
+        rl.close();
+        process.exit();
+    } else {
+        console.log("Your health: " + Matt.health + "/" + Matt.maxhealth);
+    }
 }
 
 function printInventory(){
@@ -85,18 +140,32 @@ function printInventory(){
 }
 
 function consume(item){
-    if(item.ammount >= 1 ){
-    if(Matt.health < Matt.maxhealth){
-        Matt.health += item.food
-        if(Matt.health >= Matt.maxhealth){
-            Matt.health = Matt.maxhealth
+    if(item.ammount >= 1){
+ 
+        if (item.food && item.food > 0) {
+            if (Matt.health < Matt.maxhealth) {
+                Matt.health += item.food;
+                if (Matt.health > Matt.maxhealth) {
+                    Matt.health = Matt.maxhealth;
+                }
+                item.ammount -= 1;
+                console.log("You consumed " + item.desc + ". Your health is now " + Matt.health + "/" + Matt.maxhealth + ".");
+ 
+                if (item.ammount === 0) {
+                    let index = Matt.inventory.indexOf(item);
+                    if (index > -1) {
+                        Matt.inventory.splice(index, 1);
+                        console.log("You have used up all of the " + item.desc + ".");
+                    }
+                }
+            } else {
+                console.log("You are too full to eat.");
+            }
+        } else {
+            console.log("This item has no food value or is not consumable.");
         }
-        item.ammount -= 1;
-    }else{
-        console.log("you are too full to eat")
-    } 
-    }else{
-        console.log("you dont have that")
+    } else {
+        console.log("You don't have that item.");
     }
 }
 
@@ -128,6 +197,7 @@ class matt{
     this.inventory = [new item_rusty_sword(1)];
     this.health = 30;
     this.maxhealth = 30;
+    this.wornArmor = 0;//default armor value
     }
 }
 //item classes
