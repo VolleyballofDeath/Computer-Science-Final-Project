@@ -1,6 +1,6 @@
 
 
-    let Matt = new matt();
+
 function main(){
     //initialize all locations here first
     let PlaceForest00 = new place([],[],"You are Matt. You have just awoken in an enchanted forest filled barren with mystical creatures and fantasies. You remember nothing of how you arrived here, nor your life before the forest. All you have is a rusty sword, and all you know is that you feel a creeping danger here, and you must escape as quickly as possible. Understood?","Starting Location");
@@ -195,5 +195,5 @@ class enemy_ghoul{
         }
     }
 }
-
+let Matt = new matt();
 main();
