@@ -66,7 +66,6 @@ async function move() {
                Matt.place = currentPlace.links[i];
                console.log("You moved to " + Matt.place.name);
                console.log(Matt.place.desc)
-               rl.close(); // close input once move is done
                return;
            }
        }
