@@ -28,7 +28,7 @@ async function main(){
 
     console.log(Matt.place.desc)
     while (true) {
-
+        if (Matt.place.enemies.length === 0){
         let input = await ask("What do you want to do? (move, inventory, quit): ");
 
         if (input === "move") {
@@ -41,6 +41,9 @@ async function main(){
             break;
         } else {
             console.log("Unknown command.");
+        }
+        }else{
+            await fight();
         }
     }
 }
