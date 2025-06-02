@@ -28,9 +28,17 @@ async function main(){
 
     console.log("hello world")
     await move();
+
 }
 
+async function placeOptions(){
+    console.log(Matt.place.desc);
+    if(Matt.place.enemies != []){
 
+    }else{
+
+    }
+}
 
 
 
