@@ -29,6 +29,8 @@ async function main(){
     console.log(Matt.place.desc)
     while (true) {
     if (Matt.place.enemies.length === 0) {
+        addLootToInventory(Matt.place)
+        Matt.place.loot = [];
         let input = await ask("What do you want to do? (move, inventory, consume, quit): ");
 
         if (input === "move") {
@@ -106,6 +108,7 @@ async function fight() {
         for (let i = 0; i < enemy.drops.length; i++) {
             Matt.inventory.push(enemy.drops[i]);
         }
+        mergeInventoryItems();
         enemies.splice(index, 1); 
         return;
     }
@@ -138,7 +141,17 @@ function printInventory(){
     }
     console.log(answer);
 }
-
+function addLootToInventory(place) {
+ 
+    if (place.loot.length > 0) {
+        console.log("You found some loot!");
+        for (let i = 0; i < place.loot.length; i++) {
+            Matt.inventory.push(place.loot[i]);
+        }
+        mergeInventoryItems(); 
+        console.log("Loot added to your inventory.");
+    }
+}
 function consume(item){
     if(item.ammount >= 1){
  
@@ -167,6 +180,24 @@ function consume(item){
     } else {
         console.log("You don't have that item.");
     }
+}
+function mergeInventoryItems() {
+    
+    let itemMap = new Map();
+    Matt.inventory.forEach(item => {
+        if (itemMap.has(item.desc)) {
+            let existingItem = itemMap.get(item.desc);
+            existingItem.ammount = truncate(existingItem.ammount + item.ammount);
+        } else {
+            itemMap.set(item.desc, item);
+        }
+    });
+
+    Matt.inventory = Array.from(itemMap.values());
+}
+
+function truncate(amount, decimals = 2) {
+    return Math.trunc(amount * 10 ** decimals) / 10 ** decimals;
 }
 
 function atackOnEnemy(enemy) {
