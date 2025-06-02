@@ -1,6 +1,6 @@
 
 
-
+    let Matt = new matt();
 function main(){
     //initialize all locations here first
     let PlaceForest00 = new place([],[],"You are Matt. You have just awoken in an enchanted forest filled barren with mystical creatures and fantasies. You remember nothing of how you arrived here, nor your life before the forest. All you have is a rusty sword, and all you know is that you feel a creeping danger here, and you must escape as quickly as possible. Understood?","Starting Location");
@@ -9,12 +9,12 @@ function main(){
     PlaceForest00.links = [PlaceForest01];
     PlaceForest01.links = [PlaceForest00];
     // starting initalizations
-    let Matt = new matt();
+
     Matt.place = PlaceForest00;
     Matt.heldWeapon = 0;
 
     console.log("hello world")
-
+    move();
 }
 
 
@@ -50,7 +50,7 @@ function atackOnPlayer(enemy) {
     }
 }
 function move() {
-   let currentPlace = matt.place
+   let currentPlace = Matt.place;
    console.log("your options are")
    for(let i = 0; i < currentPlace.links.length; i++) {
        console.log(currentPlace.links[i].name + ", ")
@@ -59,7 +59,7 @@ function move() {
    let input = prompt("Where do you want to go? CASE SENSITIVE")
     for(let i = 0; i < currentPlace.links.length; i++) {
        if(input == currentPlace.links[i].name)
-           matt.location = currentPlace.link[i]
+           Matt.place = currentPlace.links[i]
             break;
    }
     }
