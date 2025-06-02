@@ -16,7 +16,7 @@ function ask(question) {
 
 async function main(){
     //initialize all locations here first
-    let PlaceForest00 = new place([],[],"You are Matt. You have just awoken in a shadowy forest filled to the brim with strange creatures and danger. You remember nothing of how you arrived here, nor your life before the forest. All you have is a rusty sword and the weird purple jumpsuit on your back, and all you know is that you feel a creeping danger here, you must escape as quickly as possible.","Starting Location");
+    let PlaceForest00 = new place([],[],"You are Matt. You have just awoken in a shadowy forest filled to the brim with strange creatures and danger. You remember nothing of how you arrived here, nor your life before the forest. All you have is a rusty sword and a strange purple jumpsuit on your back, and all you know is that you feel a creeping danger here, you must escape as quickly as possible.","Starting Location");
     let PlaceForest01 = new place([new enemy_slime(),new enemy_slime()],[new item_blackberry(4)],"you come across a secluded grove","the forest grove");
     let PlaceForest02 = new place([new enemy_slime_large(), new enemy_slime()],[new item_blackberry(10), new item_wool_coat(1)],"you stumble into a larger clearing, and see the twin moons abovehead","moonlit clearing");
     let PlaceForest03 = new place([],[new item_bronze_sword(1)],"you go down the side path and find a new bronze sword laying next to a tree","dark side path");
