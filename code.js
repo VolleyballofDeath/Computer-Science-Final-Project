@@ -27,17 +27,42 @@ async function main(){
     Matt.heldWeapon = 0;
 
     console.log("hello world")
-    await move();
+    await placeOptions();
 
 }
 
 async function placeOptions(){
     console.log(Matt.place.desc);
     if(Matt.place.enemies != []){
-
+        await move();
     }else{
 
     }
+    console.log(Matt.inventory);
+    Matt.inventory.push(Matt.place.loot);
+    console.log(Matt.inventory);
+    return;
+}
+
+async function move() {
+   let currentPlace = Matt.place;
+   console.log("your options are:")
+   for (let i = 0; i < currentPlace.links.length; i++) {
+       console.log(currentPlace.links[i].name);
+   }
+
+   while (true) {
+       let input = await ask("Where do you want to go? CASE SENSITIVE: ");
+       for (let i = 0; i < currentPlace.links.length; i++) {
+           if (input === currentPlace.links[i].name) {
+               Matt.place = currentPlace.links[i];
+               console.log("You moved to " + Matt.place.name);
+               rl.close(); // close input once move is done
+               return;
+           }
+       }
+       console.log("Invalid location. Try again.");
+   }
 }
 
 
@@ -70,26 +95,7 @@ function atackOnPlayer(enemy) {
     Matt.health -= (enemy.attack-playerDefense);
     }
 }
-async function move() {
-   let currentPlace = Matt.place;
-   console.log("your options are:")
-   for (let i = 0; i < currentPlace.links.length; i++) {
-       console.log(currentPlace.links[i].name);
-   }
 
-   while (true) {
-       let input = await ask("Where do you want to go? CASE SENSITIVE: ");
-       for (let i = 0; i < currentPlace.links.length; i++) {
-           if (input === currentPlace.links[i].name) {
-               Matt.place = currentPlace.links[i];
-               console.log("You moved to " + Matt.place.name);
-               rl.close(); // close input once move is done
-               return;
-           }
-       }
-       console.log("Invalid location. Try again.");
-   }
-}
 
 class place{
     constructor(enemies,loot,desc,name){
