@@ -18,9 +18,11 @@ async function main(){
     //initialize all locations here first
     let PlaceForest00 = new place([],[],"You are Matt. You have just awoken in an enchanted forest filled to the brim with mystical creatures and fantasies. You remember nothing of how you arrived here, nor your life before the forest. All you have is a rusty sword, and all you know is that you feel a creeping danger here, and you must escape as quickly as possible. Understood?","Starting Location");
     let PlaceForest01 = new place([new enemy_slime(),new enemy_slime()],[new item_blackberry(4)],"you come across a secluded grove","the forest grove");
+    let PlaceForest02 = new place([new enemy_slime_large(), new enemy_slime()],[new item_blackberry(10), new item_wool_coat(1)],"you stumble into a larger clearing, and see the twin moons abovehead","moonlit clearing");
     // intialize all the links between locations
     PlaceForest00.links = [PlaceForest01];
-    PlaceForest01.links = [PlaceForest00];
+    PlaceForest01.links = [PlaceForest00,PlaceForest02];
+    PlaceForest02.links = [PlaceForest01];
     // starting initalizations
 
     Matt.place = PlaceForest00;
@@ -90,6 +92,11 @@ async function fight() {
         console.log("[" + i + "] " + enemies[i].desc + " (HP: " + enemies[i].health.toFixed(1) + ")");
     }
 
+    // Automatically select the best weapon
+    Matt.heldWeapon = getBestWeapon();
+    let playerAttack = Matt.inventory[Matt.heldWeapon].attack;
+
+    // Choose an enemy to attack
     let input = await ask("Choose an enemy to attack by number: ");
     let index = Number(input);
 
@@ -100,7 +107,7 @@ async function fight() {
 
     let enemy = enemies[index];
 
-    console.log("You attack the " + enemy.desc + "!");
+    console.log("You attack the " + enemy.desc + " with the " + Matt.inventory[Matt.heldWeapon].desc + "!");
     atackOnEnemy(enemy);
 
     if (enemy.health <= 0) {
@@ -114,16 +121,12 @@ async function fight() {
     }
 
     console.log("The " + enemy.desc + " strikes back!");
-    let originalWornArmor = Matt.wornArmor;
-    if (typeof Matt.wornArmor !== 'number' || !Matt.inventory[Matt.wornArmor]?.defense) {
-        Matt.wornArmor = -1;
-        Matt.inventory[-1] = { defense: 0 }; 
-    }
+
+    // Automatically select the best armor
+    let bestArmorIndex = getBestArmor();
+    let playerDefense = Matt.inventory[bestArmorIndex].defense;
+    
     atackOnPlayer(enemy);
-    if (Matt.wornArmor === -1) {
-        delete Matt.inventory[-1];
-        Matt.wornArmor = originalWornArmor;
-    }
 
     if (Matt.health <= 0) {
         console.log("You were defeated...");
@@ -133,7 +136,41 @@ async function fight() {
         console.log("Your health: " + Matt.health + "/" + Matt.maxhealth);
     }
 }
+// Function to get the best weapon
+function getBestWeapon() {
+    let bestWeaponIndex = -1;
+    let highestAttack = 0;
 
+    // Loop through inventory to find the best weapon
+    for (let i = 0; i < Matt.inventory.length; i++) {
+        let item = Matt.inventory[i];
+
+        if (item.attack && item.attack > highestAttack) {
+            highestAttack = item.attack;
+            bestWeaponIndex = i;
+        }
+    }
+
+    return bestWeaponIndex;
+}
+
+// Function to get the best armor
+function getBestArmor() {
+    let bestArmorIndex = -1;
+    let highestDefense = 0;
+
+    // Loop through inventory to find the best armor
+    for (let i = 0; i < Matt.inventory.length; i++) {
+        let item = Matt.inventory[i];
+
+        if (item.defense && item.defense > highestDefense) {
+            highestDefense = item.defense;
+            bestArmorIndex = i;
+        }
+    }
+
+    return bestArmorIndex;
+}
 function printInventory(){
     answer = ""
     for (let i = 0; i < Matt.inventory.length; i++){
@@ -304,9 +341,8 @@ class enemy_slime{
         this.desc = "a small green blob of agression"
     }
     update(){
-        if(health <= 0){
-            console.log("the blob lets out a final gurgling squelch")
-            this.attack = 0;
+        if(this.health <= 0){
+            console.log("the slime screeches as it is rent assunder")
         }
     }
 
@@ -317,15 +353,14 @@ class enemy_slime_large{
         this.health = 20 + Number(3*Math.random());
         this.attack = 3;
         this.defense =2;
-        this.drops = [item_strange_goo(20 + Number(3*Math.random))];
+        this.drops = [new item_strange_goo(20 + Number(3*Math.random))];
         this.desc = "a verdant, undulating blob of rage"
     }
     update(){
-        if(health <= 0){
+        if(this.health <= 0){
             Matt.place.enemies.push(new enemy_slime);
             Matt.place.enemies.push(new enemy_slime);
             console.log("the blob splits in twain to bring you pain!")
-            this.attack = 0;
         }
     }
 }
@@ -339,9 +374,8 @@ class enemy_ghoul{
         this.desc = "a gaunt, rotting corpe, shambling in a cruel mockery of life"
     }
     update(){
-        if(health <= 0){
+        if(this.health <= 0){
             console.log("the gaunt figure falls for a second and final time")
-            this.attack = 0;
         }
     }
 }
