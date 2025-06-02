@@ -35,6 +35,7 @@ async function main(){
     PlaceForest04.links = [PlaceForest02,PlaceChapter1END];
 
     PlaceChapter1END.links = [PlaceForest04,PlacePlains11];
+    
     PlacePlains11.links = [PlacePlains12];
     PlacePlains12.links = [PlacePlains11];
 
