@@ -16,13 +16,15 @@ function ask(question) {
 
 async function main(){
     //initialize all locations here first
-    let PlaceForest00 = new place([],[],"You are Matt. You have just awoken in an enchanted forest filled to the brim with mystical creatures and fantasies. You remember nothing of how you arrived here, nor your life before the forest. All you have is a rusty sword, and all you know is that you feel a creeping danger here, and you must escape as quickly as possible. Understood?","Starting Location");
+    let PlaceForest00 = new place([],[],"You are Matt. You have just awoken in an enchanted forest filled to the brim with mystical creatures and fantasies. You remember nothing of how you arrived here, nor your life before the forest. All you have is a rusty sword and the weird purple jumpsuit you are wearing, and all you know is that you feel a creeping danger here, and you must escape as quickly as possible. Understood?","Starting Location");
     let PlaceForest01 = new place([new enemy_slime(),new enemy_slime()],[new item_blackberry(4)],"you come across a secluded grove","the forest grove");
     let PlaceForest02 = new place([new enemy_slime_large(), new enemy_slime()],[new item_blackberry(10), new item_wool_coat(1)],"you stumble into a larger clearing, and see the twin moons abovehead","moonlit clearing");
+    let PlaceForest03 = new place([],[new item_bronze_sword()],"you go down the side path and find a new bronze sword laying next to a tree","dark side path");
     // intialize all the links between locations
     PlaceForest00.links = [PlaceForest01];
-    PlaceForest01.links = [PlaceForest00,PlaceForest02];
-    PlaceForest02.links = [PlaceForest01];
+    PlaceForest01.links = [PlaceForest00,PlaceForest02,PlaceForest03];
+    PlaceForest02.links = [PlaceForest01,PlaceForest02];
+    PlaceForest03.links = [PlaceForest01,PlaceForest02];
     // starting initalizations
 
     Matt.place = PlaceForest00;
@@ -84,7 +86,12 @@ async function move() {
         console.log("Invalid location. Try again.");
     }
 }
+
 async function fight() {
+    // Set the best weapon and armor before the fight
+    Matt.heldWeapon = getBestWeapon(); // Assign the best weapon
+    Matt.wornArmor = getBestArmor(); // Assign the best armor
+
     let enemies = Matt.place.enemies;
 
     console.log("Enemies here:");
@@ -92,11 +99,6 @@ async function fight() {
         console.log("[" + i + "] " + enemies[i].desc + " (HP: " + enemies[i].health.toFixed(1) + ")");
     }
 
-    // Automatically select the best weapon
-    Matt.heldWeapon = getBestWeapon();
-    let playerAttack = Matt.inventory[Matt.heldWeapon].attack;
-
-    // Choose an enemy to attack
     let input = await ask("Choose an enemy to attack by number: ");
     let index = Number(input);
 
@@ -107,7 +109,7 @@ async function fight() {
 
     let enemy = enemies[index];
 
-    console.log("You attack the " + enemy.desc + " with the " + Matt.inventory[Matt.heldWeapon].desc + "!");
+    console.log("You attack " + enemy.desc + "!");
     atackOnEnemy(enemy);
 
     if (enemy.health <= 0) {
@@ -121,12 +123,16 @@ async function fight() {
     }
 
     console.log("The " + enemy.desc + " strikes back!");
-
-    // Automatically select the best armor
-    let bestArmorIndex = getBestArmor();
-    let playerDefense = Matt.inventory[bestArmorIndex].defense;
-    
+    let originalWornArmor = Matt.wornArmor;
+    if (typeof Matt.wornArmor !== 'number' || !Matt.inventory[Matt.wornArmor]?.defense) {
+        Matt.wornArmor = -1;
+        Matt.inventory[-1] = { defense: 0 }; 
+    }
     atackOnPlayer(enemy);
+    if (Matt.wornArmor === -1) {
+        delete Matt.inventory[-1];
+        Matt.wornArmor = originalWornArmor;
+    }
 
     if (Matt.health <= 0) {
         console.log("You were defeated...");
@@ -136,17 +142,13 @@ async function fight() {
         console.log("Your health: " + Matt.health + "/" + Matt.maxhealth);
     }
 }
-// Function to get the best weapon
 function getBestWeapon() {
     let bestWeaponIndex = -1;
-    let highestAttack = 0;
+    let highestAttack = -1;
 
-    // Loop through inventory to find the best weapon
     for (let i = 0; i < Matt.inventory.length; i++) {
-        let item = Matt.inventory[i];
-
-        if (item.attack && item.attack > highestAttack) {
-            highestAttack = item.attack;
+        if (Matt.inventory[i].attack > highestAttack) {
+            highestAttack = Matt.inventory[i].attack;
             bestWeaponIndex = i;
         }
     }
@@ -154,23 +156,21 @@ function getBestWeapon() {
     return bestWeaponIndex;
 }
 
-// Function to get the best armor
 function getBestArmor() {
     let bestArmorIndex = -1;
-    let highestDefense = 0;
+    let highestDefense = -1;
 
-    // Loop through inventory to find the best armor
     for (let i = 0; i < Matt.inventory.length; i++) {
-        let item = Matt.inventory[i];
-
-        if (item.defense && item.defense > highestDefense) {
-            highestDefense = item.defense;
+        if (Matt.inventory[i].defense > highestDefense) {
+            highestDefense = Matt.inventory[i].defense;
             bestArmorIndex = i;
         }
     }
 
     return bestArmorIndex;
 }
+
+
 function printInventory(){
     answer = ""
     for (let i = 0; i < Matt.inventory.length; i++){
@@ -262,13 +262,21 @@ class place{
 
 class matt{
     constructor(){
-    this.inventory = [new item_rusty_sword(1)];
+    this.inventory = [new item_rusty_sword(1),new item_purple_jumpsuit(1)];
     this.health = 30;
     this.maxhealth = 30;
     this.wornArmor = 0;//default armor value
     }
 }
 //item classes
+class item_purple_jumpsuit{
+   constructor(ammount){
+        this.ammount=ammount;
+        this.defense = 0;
+        this.value = 1;
+        this.desc = "a purple jumpsuit with a strange logo 0 DEF"
+    } 
+}
 class item_rusty_sword{
     constructor(ammount){
         this.ammount=ammount;
@@ -309,15 +317,15 @@ class item_wool_coat{
         this.ammount = ammount;
         this.value = 5;
         this.defense = 1;
-        this.disc= "a reasonable woolen overcoat. offers light protection 1 DEF"
+        this.desc= "a reasonable woolen overcoat. offers light protection 1 DEF"
     }
 }
 
 class item_bronze_sword {
     constructor(ammount){
         this.ammount = ammount;
-        this.attack = 5;
-        this.value = 5;
+        this.attack = 7;
+        this.value = 7;
         this.desc = "a newly-forged bronze sword, much stronger than the last 5 ATK";
     }
 }
@@ -325,8 +333,8 @@ class item_bronze_sword {
 class item_silver_sword {
     constructor(ammount){
         this.ammount = ammount;
-        this.attack = 9;
-        this.value = 9;
+        this.attack = 16;
+        this.value = 16;
         this.desc = "a silver sword, humming with faint magical energy 9 ATK"
     }
 
@@ -337,31 +345,18 @@ class enemy_slime{
         this.health = 5 + Number(2*Math.random());
         this.attack = 2;
         this.defense = 1;
-        this.drops = [new item_strange_goo(5 + Number(2*Math.random()))];
+        this.drops = [new item_strange_goo(5 + Math.floor(2*Math.random()))];
         this.desc = "a small green blob of agression"
     }
-    update(){
-        if(this.health <= 0){
-            console.log("the slime screeches as it is rent assunder")
-        }
-    }
-
 }
 
-class enemy_slime_large{
-    constructor(){
-        this.health = 20 + Number(3*Math.random());
+class enemy_slime_large {
+    constructor() {
+        this.health = 20 + Number(3 * Math.random());
         this.attack = 3;
-        this.defense =2;
-        this.drops = [new item_strange_goo(20 + Number(3*Math.random))];
-        this.desc = "a verdant, undulating blob of rage"
-    }
-    update(){
-        if(this.health <= 0){
-            Matt.place.enemies.push(new enemy_slime);
-            Matt.place.enemies.push(new enemy_slime);
-            console.log("the blob splits in twain to bring you pain!")
-        }
+        this.defense = 2;
+        this.drops = [new item_strange_goo(20 + Math.floor(3 * Math.random()))];
+        this.desc = "a verdant, undulating blob of rage";
     }
 }
 
@@ -372,11 +367,6 @@ class enemy_ghoul{
         this.defense =1;
         this.drops = [];
         this.desc = "a gaunt, rotting corpe, shambling in a cruel mockery of life"
-    }
-    update(){
-        if(this.health <= 0){
-            console.log("the gaunt figure falls for a second and final time")
-        }
     }
 }
 let Matt = new matt();
