@@ -20,9 +20,12 @@ async function main(){
     let PlaceForest01 = new place([new enemy_slime(),new enemy_slime()],[new item_blackberry(4)],"you come across a secluded grove","the forest grove");
     let PlaceForest02 = new place([new enemy_slime_large(), new enemy_slime()],[new item_blackberry(10), new item_wool_coat(1)],"you stumble into a larger clearing, and see the twin moons abovehead","moonlit clearing");
     let PlaceForest03 = new place([],[new item_bronze_sword(1)],"you go down the side path and find a new bronze sword laying next to a tree","dark side path");
-    let PlaceForest04 = new place([],[new item_bread_loaf(5)],"you find abandoned villa. the only sing of habitation is a well-stocked pantry","opening out of forest")
+    let PlaceForest04 = new place([],[new item_bread_loaf(5)],"you find a abandoned villa. the only sign of habitation is a well-stocked pantry","opening out of forest")
 
     let PlaceChapter1END = new place([],[],"you consider wether to move beyond the forest, to the wide plains beyond. this villa is well-hidden, you likeley will never encounter it again","beyond the forest");
+
+    let PlacePlains11 = new place([new enemy_ghoul(),new enemy_ghoul],[],"you come across a corpe pit, somehow radiating pure malice","strange pit");
+    let PlacePlains12 = new place([new enemy_ghoul()],[new item_bread_loaf(3)],"you come across a new-looking tent nearby the pit","tent");
 
     // intialize all the links between locations
     PlaceForest00.links = [PlaceForest01];
@@ -30,7 +33,11 @@ async function main(){
     PlaceForest02.links = [PlaceForest01,PlaceForest03,PlaceForest04];
     PlaceForest03.links = [PlaceForest01,PlaceForest02];
     PlaceForest04.links = [PlaceForest02,PlaceChapter1END];
-    PlaceChapter1END.links = [PlaceForest04];
+
+    PlaceChapter1END.links = [PlaceForest04,PlacePlains11];
+    PlacePlains11.links = [PlacePlains12];
+    PlacePlains12.links = [PlacePlains11];
+
     // starting initalizations
 
     Matt.place = PlaceForest00;
