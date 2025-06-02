@@ -18,14 +18,14 @@ async function main(){
     //initialize all locations here first
     let PlaceForest00 = new place([],[],"You are Matt. You have just awoken in a shadowy forest filled to the brim with strange creatures and danger. You remember nothing of how you arrived here, nor your life before the forest. All you have is a rusty sword and a strange purple jumpsuit on your back, and all you know is that you feel a creeping danger here, you must escape as quickly as possible.","Starting Location");
     let PlaceForest01 = new place([new enemy_slime(),new enemy_slime()],[new item_blackberry(4)],"you come across a secluded grove","the forest grove");
-    let PlaceForest02 = new place([new enemy_slime_large(), new enemy_slime()],[new item_blackberry(10), new item_wool_coat(1)],"you stumble into a larger clearing, and see the twin moons abovehead","moonlit clearing");
-    let PlaceForest03 = new place([],[new item_bronze_sword(1)],"you go down the side path and find a new bronze sword laying next to a tree","dark side path");
-    let PlaceForest04 = new place([],[new item_bread_loaf(5)],"you find a abandoned villa. the only sign of habitation is a well-stocked pantry","opening out of forest")
+    let PlaceForest02 = new place([new enemy_slime_large(), new enemy_slime()],[new item_blackberry(10), new item_wool_coat(1)],"you stumble into a larger clearing, and see the twin moons abovehead","the suspicious moonlit clearing");
+    let PlaceForest03 = new place([],[new item_bronze_sword(1)],"you go down the side path and find a new bronze sword laying next to a tree","the dark side path");
+    let PlaceForest04 = new place([],[new item_bread_loaf(5)],"you find a abandoned villa. the only sign of habitation is a well-stocked pantry","the opening out of forest")
 
     let PlaceChapter1END = new place([],[],"you consider wether to move beyond the forest, to the wide plains beyond. this villa is well-hidden, you likeley will never encounter it again","beyond the forest");
 
-    let PlacePlains11 = new place([new enemy_ghoul(),new enemy_ghoul],[],"you come across a corpe pit, somehow radiating pure malice","strange pit");
-    let PlacePlains12 = new place([new enemy_ghoul()],[new item_bread_loaf(3)],"you come across a new-looking tent nearby the pit","tent");
+    let PlacePlains11 = new place([new enemy_ghoul(),new enemy_ghoul],[],"you come across a corpe pit, somehow radiating pure malice","the strange pit");
+    let PlacePlains12 = new place([new enemy_ghoul()],[new item_bread_loaf(3),new item_war_banner(1)],"you come across a new-looking tent nearby the pit","the tent");
 
     // intialize all the links between locations
     PlaceForest00.links = [PlaceForest01];
@@ -35,7 +35,7 @@ async function main(){
     PlaceForest04.links = [PlaceForest02,PlaceChapter1END];
 
     PlaceChapter1END.links = [PlaceForest04,PlacePlains11];
-    
+
     PlacePlains11.links = [PlacePlains12];
     PlacePlains12.links = [PlacePlains11];
 
@@ -352,6 +352,14 @@ class item_silver_sword {
         this.desc = "a silver sword, humming with faint magical energy [16 ATK]"
     }
 
+}
+
+class item_war_banner {
+     constructor(ammount){
+        this.ammount = ammount;
+        this.value = 5;
+        this.desc = "a cloth banner depicting a red chevron circled by an ouroborus, mounted on a wooden pole"
+    }
 }
 //enemy classes
 class enemy_slime{
