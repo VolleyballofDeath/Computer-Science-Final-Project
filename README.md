@@ -1,1 +1,2 @@
 # Computer-Science-Final-Project
+This is a text-based rpg in whitch you play as Matt, a misterious figure who wakes up in a forest with nothing but a rusty sword and a jumpsuit. all responses to prompts must be perfectly match the option. the gear with the best attack and defense values will be used automatically, no need to select stuff to equip.
