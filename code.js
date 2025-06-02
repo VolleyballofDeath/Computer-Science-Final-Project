@@ -1,7 +1,20 @@
 
 
+const readline = require('readline');
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
 
-function main(){
+function ask(question) {
+    return new Promise(resolve => {
+        rl.question(question, answer => {
+            resolve(answer);
+        });
+    });
+}
+
+async function main(){
     //initialize all locations here first
     let PlaceForest00 = new place([],[],"You are Matt. You have just awoken in an enchanted forest filled barren with mystical creatures and fantasies. You remember nothing of how you arrived here, nor your life before the forest. All you have is a rusty sword, and all you know is that you feel a creeping danger here, and you must escape as quickly as possible. Understood?","Starting Location");
     let PlaceForest01 = new place([new enemy_slime,new enemy_slime],[new item_blackberry(4)],"you come across a secluded grove","the forest grove");
@@ -14,7 +27,7 @@ function main(){
     Matt.heldWeapon = 0;
 
     console.log("hello world")
-    move();
+    await move();
 }
 
 
@@ -49,20 +62,25 @@ function atackOnPlayer(enemy) {
     Matt.health -= (enemy.attack-playerDefense);
     }
 }
-function move() {
+async function move() {
    let currentPlace = Matt.place;
-   console.log("your options are")
-   for(let i = 0; i < currentPlace.links.length; i++) {
-       console.log(currentPlace.links[i].name + ", ")
+   console.log("your options are:")
+   for (let i = 0; i < currentPlace.links.length; i++) {
+       console.log(currentPlace.links[i].name);
    }
-   while (true){
-   let input = prompt("Where do you want to go? CASE SENSITIVE")
-    for(let i = 0; i < currentPlace.links.length; i++) {
-       if(input == currentPlace.links[i].name)
-           Matt.place = currentPlace.links[i]
-            break;
+
+   while (true) {
+       let input = await ask("Where do you want to go? CASE SENSITIVE: ");
+       for (let i = 0; i < currentPlace.links.length; i++) {
+           if (input === currentPlace.links[i].name) {
+               Matt.place = currentPlace.links[i];
+               console.log("You moved to " + Matt.place.name);
+               rl.close(); // close input once move is done
+               return;
+           }
+       }
+       console.log("Invalid location. Try again.");
    }
-    }
 }
 
 class place{
