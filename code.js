@@ -16,7 +16,7 @@ function ask(question) {
 
 async function main(){
     //initialize all locations here first
-    let PlaceForest00 = new place([],[],"You are Matt. You have just awoken in an enchanted forest filled barren with mystical creatures and fantasies. You remember nothing of how you arrived here, nor your life before the forest. All you have is a rusty sword, and all you know is that you feel a creeping danger here, and you must escape as quickly as possible. Understood?","Starting Location");
+    let PlaceForest00 = new place([],[],"You are Matt. You have just awoken in an enchanted forest filled to the brim with mystical creatures and fantasies. You remember nothing of how you arrived here, nor your life before the forest. All you have is a rusty sword, and all you know is that you feel a creeping danger here, and you must escape as quickly as possible. Understood?","Starting Location");
     let PlaceForest01 = new place([new enemy_slime,new enemy_slime],[new item_blackberry(4)],"you come across a secluded grove","the forest grove");
     // intialize all the links between locations
     PlaceForest00.links = [PlaceForest01];
@@ -26,21 +26,29 @@ async function main(){
     Matt.place = PlaceForest00;
     Matt.heldWeapon = 0;
 
-    console.log("hello world")
-    await placeOptions();
+    console.log(Matt.place.desc)
+    while (true) {
 
+        let input = await ask("What do you want to do? (move, inventory, quit): ");
+
+        if (input === "move") {
+            await move();
+        } else if (input === "inventory") {
+            printInventory();
+        }else if (input === "quit") {
+            console.log("Goodbye!");
+            rl.close();
+            break;
+        } else {
+            console.log("Unknown command.");
+        }
+    }
 }
 
-async function placeOptions(){
-    console.log(Matt.place.desc);
-    if(Matt.place.enemies != []){
-        await move();
-    }else{
 
-    }
-    console.log(Matt.inventory);
-    Matt.inventory.push(Matt.place.loot);
-    console.log(Matt.inventory);
+
+async function fight(){
+
     return;
 }
 
@@ -57,6 +65,7 @@ async function move() {
            if (input === currentPlace.links[i].name) {
                Matt.place = currentPlace.links[i];
                console.log("You moved to " + Matt.place.name);
+               console.log(Matt.place.desc)
                rl.close(); // close input once move is done
                return;
            }
@@ -65,7 +74,13 @@ async function move() {
    }
 }
 
-
+function printInventory(){
+    answer = ""
+    for (let i = 0; i < Matt.inventory.length; i++){
+        answer+=Matt.inventory[i].desc+"x"+Matt.inventory[i].ammount+","
+    }
+    console.log(answer);
+}
 
 function consume(item){
     if(item.ammount >= 1 ){
@@ -159,8 +174,8 @@ class item_wool_coat{
 }
 
 class item_bronze_sword {
-    constructor(amount){
-        this.amount = amount;
+    constructor(ammount){
+        this.ammount = ammount;
         this.attack = 5;
         this.value = 5;
         this.desc = "a newly-forged bronze sword, much stronger than the last";
