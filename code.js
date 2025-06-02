@@ -302,7 +302,7 @@ class item_blackberry{
         this.ammount = ammount;
         this.value = 0.5;
         this.food = 1;
-        this.desc = "a small blackberry. looks edible 1 FOOD"
+        this.desc = "a small blackberry. looks edible [1 FOOD]"
     }
 }
 
@@ -311,7 +311,7 @@ class item_bread_loaf{
         this.ammount = ammount;
         this.value = 0.7;
         this.food = 6;
-        this.desc = "a loaf of sourdough bread. looks edible 6 FOOD"
+        this.desc = "a loaf of sourdough bread. looks edible [6 FOOD]"
     }
 }
 
@@ -320,7 +320,7 @@ class item_wool_coat{
         this.ammount = ammount;
         this.value = 5;
         this.defense = 1;
-        this.desc= "a reasonable woolen overcoat. offers light protection 1 DEF"
+        this.desc= "a reasonable woolen overcoat. offers light protection [1 DEF]"
     }
 }
 
@@ -329,7 +329,7 @@ class item_bronze_sword {
         this.ammount = ammount;
         this.attack = 7;
         this.value = 7;
-        this.desc = "a newly-forged bronze sword, much stronger than the last 5 ATK";
+        this.desc = "a newly-forged bronze sword, much stronger than the last [7 ATK]";
     }
 }
 
@@ -338,7 +338,7 @@ class item_silver_sword {
         this.ammount = ammount;
         this.attack = 16;
         this.value = 16;
-        this.desc = "a silver sword, humming with faint magical energy 9 ATK"
+        this.desc = "a silver sword, humming with faint magical energy [16 ATK]"
     }
 
 }
